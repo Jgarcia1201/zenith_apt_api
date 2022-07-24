@@ -1,5 +1,17 @@
 def process_complexes(complex_arr, client):
-    return None
+    for apt_complex in complex_arr:
+        apt_complex["score"] = score_complex(apt_complex)
+    return get_top_five(complex_arr)
+
+
+def get_top_five(complex_arr):
+    try:
+        sorted_by_score = sorted(complex_arr, key=lambda d: d["score"], reverse=True)
+        return sorted_by_score[0:5]
+    except KeyError:
+        missing_scores_removed = [apt for apt in complex_arr if ("score" in apt)]
+        sorted_by_score = sorted(missing_scores_removed, key=lambda d: d["score"], reverse=True)
+        return sorted_by_score[0:5]
 
 
 def score_complex(apt_complex, client):

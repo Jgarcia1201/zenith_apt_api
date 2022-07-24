@@ -1,6 +1,6 @@
 import unittest
 
-from repository.complexController import score_complex
+from repository.complexRepo import score_complex, get_top_five
 
 test_client = {
         'name': 'James',
@@ -40,6 +40,27 @@ test_complexes = [
     }
 ]
 
+top_five_test_in = [
+    {
+        "score": 10
+    },
+    {
+        "score": 15
+    },
+    {
+        "score": 30
+    },
+    {
+        "score": 5
+    },
+    {
+        "score": 15
+    },
+    {
+        "score": 0
+    },
+]
+
 
 class TestApi(unittest.TestCase):
 
@@ -54,3 +75,16 @@ class TestApi(unittest.TestCase):
         self.assertEqual(score_complex(test_complexes[2], test_client), 10)
         # Valid Three Off
         self.assertEqual(score_complex(test_complexes[3], test_client), 0)
+
+    def test_top_five(self):
+        # Valid
+        self.assertEqual(get_top_five(top_five_test_in), [{'score': 30}, {'score': 15}, {'score': 15}, {'score': 10},
+                                                          {'score': 5}])
+        # Empty Array
+        self.assertEqual(get_top_five([]), [])
+        # Array Shorter Than 5
+        self.assertEqual(get_top_five(top_five_test_in[0:3]), [{'score': 30}, {'score': 15}, {'score': 10}])
+        # Score Attribute Missing From A Dictionary
+        self.assertEqual(get_top_five([{'score': 30}, {'score': 15}, {}]), [{'score': 30}, {'score': 15}])
+
+
