@@ -1,6 +1,6 @@
 def process_complexes(complex_arr, client):
     for apt_complex in complex_arr:
-        apt_complex["score"] = score_complex(apt_complex)
+        apt_complex["score"] = score_complex(apt_complex, client)
     return get_top_five(complex_arr)
 
 
