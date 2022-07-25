@@ -1,4 +1,4 @@
-from flask import current_app
+from db import DBConnection
 
 '''
 Eventually will be able to instantiate a class with a mysql connection and make queries to the database.
@@ -8,6 +8,8 @@ and finally passed on to the client through the controller layer.
 
 
 class ComplexService:
+    cursor = None
 
-    def __init__(self, connection):
-        self.connection = connection.connect
+    def __init__(self):
+        conn = DBConnection()
+        db_cursor = conn.get_db_cursor()

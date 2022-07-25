@@ -1,6 +1,8 @@
 import unittest
 
 from repository.complexRepo import score_complex, get_top_five
+from service.db import DBConnection
+
 
 test_client = {
         'name': 'James',
@@ -86,5 +88,3 @@ class TestApi(unittest.TestCase):
         self.assertEqual(get_top_five(top_five_test_in[0:3]), [{'score': 30}, {'score': 15}, {'score': 10}])
         # Score Attribute Missing From A Dictionary
         self.assertEqual(get_top_five([{'score': 30}, {'score': 15}, {}]), [{'score': 30}, {'score': 15}])
-
-
