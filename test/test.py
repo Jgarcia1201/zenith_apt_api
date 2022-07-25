@@ -90,8 +90,10 @@ class TestApi(unittest.TestCase):
         self.assertEqual(get_top_five([{'score': 30}, {'score': 15}, {}]), [{'score': 30}, {'score': 15}])
 
     def test_query_builder(self):
-        # User Interface will force input for all of these fields so testing a null values will
-        # NEVER happen.
+        # User Interface will force input for all of these fields so null values will
+        # NEVER happen. String should build out appropriate query. Think really hard
+        # before touching this.
         valid_output = "SELECT name, address, luxScore, livScore, hood, img, phone FROM apartments WHERE " \
-                       "hood = Heights OR hood = Downtown OR hood = Midtown AND 1brMin >= 1200 AND 1brMax <= 1700"
+                       "hood = 'Heights' OR hood = 'Downtown' OR hood = 'Midtown' AND 1brMinRent >= 1200 AND " \
+                       "1brMaxRent <= 1700"
         self.assertEqual(build_query(test_client), valid_output)

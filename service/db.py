@@ -1,9 +1,12 @@
 from flask import current_app
-from flask import Flask
 from flask_mysqldb import MySQL
 from dotenv import load_dotenv
-
 load_dotenv()
+
+'''
+Creates an instance of DB Connection to make a query.
+Should only be accessed by the Service layer.
+'''
 
 
 class DBConnection:
@@ -18,9 +21,3 @@ class DBConnection:
 
     def get_db_cursor(self):
         return self.cursor
-
-    def is_connected(self):
-        if self.connection is not None:
-            return True
-        else:
-            return False

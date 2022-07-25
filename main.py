@@ -3,8 +3,9 @@ from controller.complex_controller import complex_controller
 import os
 from dotenv import load_dotenv
 
-app = Flask(__name__)
 load_dotenv()
+
+app = Flask(__name__)
 app.config['MYSQL_USER'] = os.environ.get('DB_USER')
 app.config['MYSQL_PASSWORD'] = os.environ.get('DB_PASS')
 app.config["MYSQL_DB"] = os.environ.get('DB_NAME')
