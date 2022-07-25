@@ -1,12 +1,12 @@
 import unittest
 
-from repository.complexRepo import score_complex, get_top_five
-from service.db import DBConnection
+from repository.complexRepo import score_complex, get_top_five, build_query
 
 
 test_client = {
         'name': 'James',
         'email': 'james@james.com',
+        'hoods': ['Heights', 'Downtown', 'Midtown'],
         'lux_score': 7,
         'liv_score': 5,
         'rent_min': 1200,
@@ -88,3 +88,10 @@ class TestApi(unittest.TestCase):
         self.assertEqual(get_top_five(top_five_test_in[0:3]), [{'score': 30}, {'score': 15}, {'score': 10}])
         # Score Attribute Missing From A Dictionary
         self.assertEqual(get_top_five([{'score': 30}, {'score': 15}, {}]), [{'score': 30}, {'score': 15}])
+
+    def test_query_builder(self):
+        # User Interface will force input for all of these fields so testing a null values will
+        # NEVER happen.
+        valid_output = "SELECT name, address, luxScore, livScore, hood, img, phone FROM apartments WHERE " \
+                       "hood = Heights OR hood = Downtown OR hood = Midtown AND 1brMin >= 1200 AND 1brMax <= 1700"
+        self.assertEqual(build_query(test_client), valid_output)

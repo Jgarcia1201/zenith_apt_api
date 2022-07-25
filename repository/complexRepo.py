@@ -4,6 +4,19 @@ def process_complexes(complex_arr, client):
     return get_top_five(complex_arr)
 
 
+def build_query(client):
+    to_return = "SELECT name, address, luxScore, livScore, hood, img, phone FROM apartments WHERE "
+    hoods = client['hoods']
+    for i in range(len(hoods)):
+        if i == len(hoods) - 1:
+            to_return += "hood = " + hoods[i]
+        else:
+            to_return += "hood = " + hoods[i] + " OR "
+    to_return += " AND {0}brMin >= {1} AND {2}brMax <= {3}".format(str(client['desiredBr']), str(client['rent_min']),
+                                                                   str(client['desiredBr']), str(client['rent_max']))
+    return to_return
+
+
 def get_top_five(complex_arr):
     try:
         sorted_by_score = sorted(complex_arr, key=lambda d: d["score"], reverse=True)
