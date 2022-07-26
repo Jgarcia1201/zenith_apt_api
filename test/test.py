@@ -1,6 +1,7 @@
 import unittest
 
 from repository.complexRepo import score_complex, get_top_five, build_query
+from service.emailService import send_to_agent
 
 
 test_client = {
@@ -97,3 +98,6 @@ class TestApi(unittest.TestCase):
                        "hood = 'Heights' OR hood = 'Downtown' OR hood = 'Midtown' AND 1brMinRent >= 1200 AND " \
                        "1brMaxRent <= 1700"
         self.assertEqual(build_query(test_client), valid_output)
+
+    def test_email_to_agent(self):
+        self.assertEqual(send_to_agent(), True)

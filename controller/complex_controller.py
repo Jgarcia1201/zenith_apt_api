@@ -1,5 +1,6 @@
 from flask import Blueprint
 from repository.complexRepo import get_complexes
+from service.emailService import send_to_agent
 import json
 
 complex_controller = Blueprint('complex_controller', __name__)
@@ -36,5 +37,6 @@ test_client = {
 
 @complex_controller.route('/')
 def get_apts():
+    send_to_agent()
     get_complexes(test_client)
     return 0
