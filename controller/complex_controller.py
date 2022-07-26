@@ -37,6 +37,5 @@ test_client = {
 
 @complex_controller.route('/')
 def get_apts():
-    send_to_agent()
     get_complexes(test_client)
     return 0
