@@ -13,7 +13,14 @@ test_client = {
         'rent_min': 1200,
         'rent_max': 1700,
         "pets": True,
-        "desiredBr": 1
+        "desiredBr": 1,
+        "matches": [
+            {"name": "Guin", "phone": "2817364902"},
+            {"name": "Pug", "phone": "2817364902"},
+            {"name": "Three", "phone": "2817364902"},
+            {"name": "Four", "phone": "2817364902"},
+            {"name": "Five", "phone": "2817364902"},
+        ]
     }
 
 test_complexes = [
@@ -100,4 +107,4 @@ class TestApi(unittest.TestCase):
         self.assertEqual(build_query(test_client), valid_output)
 
     def test_email_to_agent(self):
-        self.assertEqual(send_to_agent(), True)
+        self.assertEqual(send_to_agent(test_client), True)
