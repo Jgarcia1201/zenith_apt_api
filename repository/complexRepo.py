@@ -4,6 +4,9 @@ from service.complexService import ComplexService
 get_complexes is the main function being called in the Controller layer.
 Everything else should be set to private eventually. It's public now to make testing a little easier.
 Should stay that way, we only want one contact point with other layers of the API and this one.
+
+Get's a little bit spaghetti in the process_complexes function, as that accesses the get top five function.
+All it does is sort the array of dictionaries by score and return the top 1-5 indices.
 '''
 
 
@@ -59,28 +62,28 @@ def package_data(data):
     for apt in data:
         temp = {
             "name": apt[0],
-            "address": apt[1],
-            "lux_score": apt[2],
-            "liv_score": apt[3],
-            "hood": apt[4],
-            "img": apt[5],
-            "phone": apt[6]
+            "headline": apt[1],
+            "address": apt[2],
+            "lux_score": apt[3],
+            "liv_score": apt[4],
+            "hood": apt[5],
+            "img": apt[6],
+            "phone": apt[7]
         }
         to_return.append(temp)
     return to_return
 
 
 def build_query(client):
-    to_return = "SELECT name, address, luxScore, livScore, hood, img, phone FROM apartments WHERE "
+    to_return = "SELECT name, headline, address, luxScore, livScore, hood, img, phone FROM apartments WHERE ("
     hoods = client['hoods']
     for i in range(len(hoods)):
         if i == len(hoods) - 1:
-            to_return += "hood = " + "'" + hoods[i] + "'"
+            to_return += "hood = " + "'" + hoods[i] + "')"
         else:
             to_return += "hood = " + "'" + hoods[i] + "'" + " OR "
-    to_return += " AND {0}brMinRent >= {1} AND {2}brMaxRent <= {3}".format(str(client['desiredBr']),
-
-                                                                     str(client['rent_min']),
-                                                                           str(client['desiredBr']),
-                                                                           str(client['rent_max']))
+    to_return += " AND ({0}brMinRent >= {1} AND {2}brMaxRent <= {3})".format(str(client['desiredBr']),
+                                                                             str(client['rent_min']),
+                                                                             str(client['desiredBr']),
+                                                                             str(client['rent_max']))
     return to_return
