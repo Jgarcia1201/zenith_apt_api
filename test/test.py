@@ -1,12 +1,11 @@
 import unittest
 
 from repository.complexRepo import score_complex, get_top_five, build_query
-from service.emailService import send_to_agent
-
+from service.emailService import send_to_agent, send_to_client
 
 test_client = {
         'name': 'James',
-        'email': 'james@james.com',
+        'email': 'james.garcia1201@outlook.com',
         'hoods': ['Heights', 'Downtown', 'Midtown'],
         'lux_score': 7,
         'liv_score': 5,
@@ -15,13 +14,14 @@ test_client = {
         "pets": True,
         "desiredBr": 1,
         "matches": [
-            {"name": "Guin", "phone": "2817364902"},
-            {"name": "Pug", "phone": "2817364902"},
-            {"name": "Three", "phone": "2817364902"},
-            {"name": "Four", "phone": "2817364902"},
-            {"name": "Five", "phone": "2817364902"},
+            {"name": "One", "phone": "2817364902", "img": "https://i.imgur.com/05q2q7g.jpg"},
+            {"name": "Two", "phone": "2817364902", "img": "https://i.imgur.com/05q2q7g.jpg"},
+            {"name": "Three", "phone": "2817364902", "img": "https://i.imgur.com/05q2q7g.jpg"},
+            {"name": "Four", "phone": "2817364902", "img": "https://i.imgur.com/05q2q7g.jpg"},
+            {"name": "Five", "phone": "2817364902", "img": "https://i.imgur.com/05q2q7g.jpg"},
         ]
     }
+
 
 test_complexes = [
     {
@@ -108,3 +108,6 @@ class TestApi(unittest.TestCase):
 
     def test_email_to_agent(self):
         self.assertEqual(send_to_agent(test_client), True)
+
+    def test_email_to_client(self):
+        self.assertEqual(send_to_client(test_client), True)
