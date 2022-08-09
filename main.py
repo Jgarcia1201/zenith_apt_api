@@ -8,14 +8,14 @@ from flask_mysqldb import MySQL
 
 load_dotenv()
 
+mysql = MySQL()
+
 app = Flask(__name__)
 cors = CORS(app)
 app.config['MYSQL_DATABASE_USER'] = os.environ.get('DB_USER')
 app.config['MYSQL_DATABASE_PASSWORD'] = os.environ.get('DB_PASS')
 app.config["MYSQL_DATABASE_DB"] = os.environ.get('DB_NAME')
-app.config["MYSQL_DATABASE_HOST"] = os.environ.get('Surface')
-
-mysql = MySQL()
+app.config["MYSQL_DATABASE_HOST"] = os.environ.get('DB_HOST')
 mysql.init_app(app)
 
 app.register_blueprint(complex_controller, url_prefix="/getApts")
