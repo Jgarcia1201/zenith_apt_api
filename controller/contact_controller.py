@@ -7,7 +7,7 @@ contact_controller = Blueprint("contact_controller", __name__)
 
 
 @contact_controller.route('/', methods=['POST'])
-@cross_origin(origins='http://localhost:3000')
+@cross_origin(origins='https://www.zenithlocators.com')
 def handle_contact_sub():
     email = request.get_json(force=True)
     if len(email["sender"]) > 0 and len(email["message"]) > 0:
