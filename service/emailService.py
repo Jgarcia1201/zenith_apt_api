@@ -39,13 +39,24 @@ def send_to_agent(client):
             <head></head>
             <body>
                 <h3>We Got a New Lead!</h3>
-                <h5>Name: {}</h3>
-                <h5>Email: {}</h3>
+                <h5>Name: {}</h5>
+                <h5>Email: {}</h5>
+                <h5>Neighborhoods: {}</h5>
+                <h5>Luxury Importance: {}</h5>
+                <h5>Nightlife Proximity: {}</h5>
+                <h5>Desired Bedrooms: {}<h/5>
+                <h5>Washer/Dryer: {}</h5>
+                <h5>Minimum Rent: {}</h5>
+                <h5>Maximum Rent: {}</h5>
+                <h5>Pets: {}</h5>
                 <h5>Here are the apartments we sent over:</h5>
                 {}
             </body>
             </html>
-        """.format(client["name"], client["email"], "<br/>".join(client_matches_info)), subtype='html')
+        """.format(client["name"], client["email"], " ".join(client["hoods"]),
+                   client["lux_score"], client["liv_score"], client["desiredBr"],
+                   client["washerDry"], client["rent_min"], client["rent_max"],
+                   client["pets"], "<br/>".join(client_matches_info)), subtype='html')
         mail_server.send_message(msg)
         mail_server.quit()
         return True
@@ -87,7 +98,8 @@ def send_to_client(client):
                 <p>We once again thank you for choosing Zenith and we look forward to hearing from you.</p>
             </body>
             </html>
-        """.format(client["name"], os.environ.get("PHONE"), len(client_matches_info), "<br/><br/>".join(client_matches_info)), subtype='html')
+        """.format(client["name"], os.environ.get("PHONE"), len(client_matches_info),
+                   "<br/><br/>".join(client_matches_info)), subtype='html')
         mail_server.send_message(msg)
         mail_server.quit()
         return True
@@ -98,7 +110,7 @@ def send_to_client(client):
 def get_match_info_client(arr):
     to_return = []
     for apt in arr:
-        temp = "<h4>{}. {}</h4><img src={}></img>".format(arr.index(apt)+1, apt["headline"], apt["img"])
+        temp = "<h4>{}. {}</h4><img src={}></img>".format(arr.index(apt) + 1, apt["headline"], apt["img"])
         to_return.append(temp)
     return to_return
 
@@ -131,6 +143,37 @@ def send_no_matches(client):
             </body>
             </html>
         """.format(client["name"], os.environ.get("PHONE")), subtype='html')
+        mail_server.send_message(msg)
+        mail_server.quit()
+        return True
+    except BaseException as error:
+        return False
+
+
+def send_contact_email(email):
+    try:
+        msg = EmailMessage()
+        msg['Subject'] = 'NEW CONTACT FORM SUBMISSION'
+        msg['From'] = os.environ.get("EMAIL_USER")
+        msg['To'] = os.environ.get("EMAIL_USER")
+        mail_server = smtplib.SMTP(os.environ.get("EMAIL_SERVER"), 587)
+        mail_server.starttls()
+        mail_server.login(os.environ.get("EMAIL_USER"), os.environ.get("EMAIL_PASS"))
+        msg.set_content("""\
+            <html>
+            <head></head>
+            <body>
+                <h5>We've received a new submission from our contact page.</h5>
+                <h5>Here are the details:</h5>
+                <h5>
+                    From: {} 
+                </h5>
+                <h5>
+                    Message: {}
+                </h5>
+            </body>
+            </html>
+        """.format(email["sender"], email["message"]), subtype='html')
         mail_server.send_message(msg)
         mail_server.quit()
         return True
