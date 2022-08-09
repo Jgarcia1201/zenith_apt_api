@@ -23,7 +23,7 @@ complex_controller = Blueprint('complex_controller', __name__)
 
 
 @complex_controller.route('/', methods=['POST'])
-@cross_origin(origins='http://localhost:3000')
+@cross_origin(origins='https://www.zenithlocators.com')
 def get_apts():
     user_client = request.get_json(force=True)
     user_client["matches"] = get_complexes(user_client)
