@@ -1,5 +1,3 @@
-import logging
-
 from flask import Flask
 from controller.complex_controller import complex_controller
 from controller.contact_controller import contact_controller
